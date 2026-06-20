@@ -3,296 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>딱 하나만 - Micro Habit Tracker</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="완벽주의를 극복하고 하루에 단 하나의 루틴에만 집중하여 지속 가능한 습관을 형성하는 마이크로 해빗 트래커입니다.">
-    <meta name="keywords" content="습관, 루틴, 해빗트래커, 미니멀리즘, 완벽주의 극복, 딱하나만, Micro Habit Tracker">
-    <meta name="author" content="김유진">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="딱 하나만 - Micro Habit Tracker">
-    <meta property="og:description" content="하루에 단 하나의 루틴에만 집중하여 지속 가능한 습관을 만드는 미니멀 해빗 트래커">
-    <meta property="og:type" content="website">
-    
-    <!-- Google Fonts & Material Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
-    
-    <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <title>딱 하나만 (Micro Habit Tracker)</title>
+    <style>
+        :root {
+            --bg-color: #f8f9fa;
+            --card-bg: #ffffff;
+            --text-main: #212529;
+            --text-sub: #6c757d;
+            --primary: #4dabf7;
+            --border: #e9ecef;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* 스마트폰 화면 모양 컨테이너 */
+        .app-container {
+            background-color: var(--card-bg);
+            width: 100%;
+            max-width: 390px;
+            height: 844px;
+            border-radius: 40px;
+            box-shadow: 0 14px 28px rgba(0,0,0,0.05), 0 10px 10px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            border: 8px solid #212529;
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .app-header {
+            padding: 30px 24px 10px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .date-text {
+            font-size: 14px;
+            color: var(--text-sub);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .app-title {
+            font-size: 24px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .app-content {
+            padding: 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .input-section, .routine-display, .emoji-section {
+            background: #f1f3f5;
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        label {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-sub);
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-sizing: border-box;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            width: 100%;
+            background-color: #212529;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #495057;
+        }
+
+        .routine-text {
+            font-size: 18px;
+            font-weight: 700;
+            text-align: center;
+            margin: 10px 0;
+            word-break: break-all;
+        }
+
+        .emoji-group {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        .emoji-btn {
+            font-size: 28px;
+            background: none;
+            border: none;
+            padding: 5px;
+            cursor: pointer;
+            width: auto;
+            transition: transform 0.2s;
+        }
+
+        .emoji-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .history-section {
+            padding: 0 24px 24px 24px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .history-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-    <div class="app-background-glow"></div>
-    
-    <div class="app-container">
-        <!-- Header -->
-        <header class="app-header">
-            <div class="header-logo-row">
-                <div class="app-logo" id="appLogo">
-                    <span class="logo-icon">✨</span>
-                    <h1 class="logo-text">딱 하나만</h1>
-                    <span class="logo-subtext">Micro Habit</span>
-                </div>
-                <div class="streak-badge" id="streakBadge" title="연속으로 루틴을 실천한 일수입니다.">
-                    <span class="material-symbols-rounded streak-icon">local_fire_department</span>
-                    <span class="streak-count" id="streakCount">0</span>일 연속
-                </div>
-            </div>
-            <div class="header-date-row">
-                <div class="date-display" id="dateDisplay">2026년 6월 20일 토요일</div>
-                <div class="app-info-tooltip">
-                    <span class="material-symbols-rounded info-icon" id="infoBtn">info</span>
-                    <div class="tooltip-content" id="infoTooltip">
-                        <h4>"딱 하나만" 핵심 규칙</h4>
-                        <ul>
-                            <li>하루에 <strong>단 하나의 루틴</strong>만 활성화할 수 있습니다.</li>
-                            <li>여러 행동을 나열하지 않고 한 문장으로 제한하여 심리적 부담을 낮춥니다.</li>
-                            <li>매일 실천 성공도를 이모지로 기록하고 짧은 소감을 남깁니다.</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
 
-        <!-- Main Content -->
-        <main class="app-main">
-            <!-- 1. Routine Input Section (State: Unregistered) -->
-            <section class="card routine-setup-card" id="routineSetupCard">
-                <div class="card-header">
-                    <span class="card-badge">STEP 1</span>
-                    <h2 class="card-title">오늘의 루틴 정하기</h2>
-                    <p class="card-subtitle">완벽주의를 내려놓고 오늘 완수할 단 하나의 행동을 입력하세요.</p>
-                </div>
-                
-                <div class="routine-input-wrapper">
-                    <div class="input-container">
-                        <input type="text" id="routineInput" placeholder="예: 집에 돌아와서 책읽기" autocomplete="off" maxlength="60">
-                        <button class="clear-btn" id="clearInputBtn" aria-label="입력 초기화">
-                            <span class="material-symbols-rounded">close</span>
-                        </button>
-                    </div>
-                    
-                    <!-- Validation Helpers -->
-                    <div class="validation-status" id="validationStatus">
-                        <div class="val-rule" id="ruleSentence">
-                            <span class="material-symbols-rounded val-icon">check_circle</span>
-                            <span class="val-text">한 문장으로 쓰기</span>
-                        </div>
-                        <div class="val-rule" id="ruleListing">
-                            <span class="material-symbols-rounded val-icon">check_circle</span>
-                            <span class="val-text">단 하나의 행동에 집중하기 (여러 활동 나열 금지)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-footer">
-                    <button class="btn btn-primary" id="activateRoutineBtn" disabled>
-                        <span class="material-symbols-rounded">play_arrow</span>
-                        오늘의 루틴 시작하기
-                    </button>
-                </div>
-            </section>
-
-            <!-- 2. Routine Execution & Evaluation Section (State: Active/Registered but incomplete) -->
-            <section class="card routine-active-card hidden" id="routineActiveCard">
-                <div class="card-header">
-                    <span class="card-badge active-badge">ACTIVE ROUTINE</span>
-                    <h2 class="card-title text-glow" id="activeRoutineText">"집에 돌아와서 책읽기."</h2>
-                    <div class="routine-action-row">
-                        <button class="btn-text-only text-danger" id="cancelRoutineBtn">
-                            <span class="material-symbols-rounded text-btn-icon">delete</span>루틴 취소/재설정
-                        </button>
-                    </div>
-                </div>
-                
-                <hr class="card-divider">
-
-                <div class="evaluation-section">
-                    <h3 class="section-title">오늘의 실천 성공도</h3>
-                    <p class="section-subtitle">오늘의 행동을 직관적으로 평가해 보세요. (단일 선택)</p>
-                    
-                    <div class="emoji-selector-grid">
-                        <button class="emoji-btn" data-status="perfect" id="emojiPerfect">
-                            <span class="emoji-char">🌟</span>
-                            <span class="emoji-label">완벽 성공</span>
-                        </button>
-                        <button class="emoji-btn" data-status="half" id="emojiHalf">
-                            <span class="emoji-char">🌓</span>
-                            <span class="emoji-label">절반의 성공</span>
-                        </button>
-                        <button class="emoji-btn" data-status="rest" id="emojiRest">
-                            <span class="emoji-char">💤</span>
-                            <span class="emoji-label">쉬어감/미실행</span>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="reflection-section">
-                    <div class="reflection-header-row">
-                        <h3 class="section-title">오늘의 실천 소감</h3>
-                        <span class="char-counter" id="charCounter">0 / 100</span>
-                    </div>
-                    <textarea id="reflectionInput" placeholder="오늘 실천하면서 어땠나요? 가볍게 기록을 남겨보세요. (최대 100자)" maxlength="100" rows="3"></textarea>
-                </div>
-
-                <div class="card-footer">
-                    <button class="btn btn-primary btn-glow" id="saveProgressBtn">
-                        <span class="material-symbols-rounded">save</span>
-                        오늘의 기록 저장하기
-                    </button>
-                </div>
-            </section>
-
-            <!-- 3. Saved Completed State Card (State: Completed) -->
-            <section class="card routine-completed-card hidden" id="routineCompletedCard">
-                <div class="completed-confetti">✨ 🎉 ✨</div>
-                <div class="card-header text-center">
-                    <div class="completed-stamp" id="completedStamp">🌟</div>
-                    <h2 class="card-title text-success">오늘의 루틴을 완료했습니다!</h2>
-                    <p class="card-subtitle">내일도 딱 하나만 가벼운 마음으로 실천해 봐요.</p>
-                </div>
-
-                <div class="completed-summary-box">
-                    <div class="summary-item">
-                        <span class="summary-label">오늘의 루틴</span>
-                        <div class="summary-value" id="completedRoutineText">"집에 돌아와서 책읽기"</div>
-                    </div>
-                    <div class="summary-item">
-                        <span class="summary-label">오늘의 성공도</span>
-                        <div class="summary-value inline-flex-center">
-                            <span class="summary-emoji" id="completedEmoji">🌟</span>
-                            <span class="summary-emoji-label" id="completedEmojiLabel">완벽 성공</span>
-                        </div>
-                    </div>
-                    <div class="summary-item" id="completedReflectionWrapper">
-                        <span class="summary-label">오늘의 소감</span>
-                        <div class="summary-value reflection-quote" id="completedReflectionText">"오늘도 성공했다! 아주 뿌듯하고 내일은 좀 더 읽어봐야겠다."</div>
-                    </div>
-                </div>
-
-                <div class="card-footer-center">
-                    <button class="btn btn-secondary" id="editCompletedBtn">
-                        <span class="material-symbols-rounded">edit</span>
-                        기록 수정하기
-                    </button>
-                </div>
-            </section>
-
-            <!-- 4. History Dashboard -->
-            <section class="card history-card" id="historyCard">
-                <div class="card-header flex-row-between">
-                    <div>
-                        <h2 class="card-title">달성 히스토리</h2>
-                        <p class="card-subtitle">최근 나의 소중한 하루하루 실천 기록입니다.</p>
-                    </div>
-                    <div class="history-stats">
-                        <div class="stat-box">
-                            <span class="stat-num text-indigo" id="totalDaysCount">0</span>
-                            <span class="stat-lbl">총 완료일</span>
-                        </div>
-                        <div class="stat-box">
-                            <span class="stat-num text-success" id="perfectRatio">0%</span>
-                            <span class="stat-lbl">완벽 성공률</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Monthly Calendar Grid view -->
-                <div class="calendar-wrapper">
-                    <div class="calendar-header">
-                        <button class="cal-nav-btn" id="prevMonthBtn" aria-label="이전 달">
-                            <span class="material-symbols-rounded">chevron_left</span>
-                        </button>
-                        <h3 class="calendar-title" id="calendarTitle">2026년 6월</h3>
-                        <button class="cal-nav-btn" id="nextMonthBtn" aria-label="다음 달">
-                            <span class="material-symbols-rounded">chevron_right</span>
-                        </button>
-                    </div>
-
-                    <div class="calendar-weekdays">
-                        <div>일</div><div>월</div><div>화</div><div>수</div><div>목</div><div>금</div><div>토</div>
-                    </div>
-                    
-                    <div class="calendar-days-grid" id="calendarDaysGrid">
-                        <!-- Filled dynamically by JS -->
-                    </div>
-                </div>
-
-                <!-- Today's logs details modal / section -->
-                <div class="history-detail-panel hidden" id="historyDetailPanel">
-                    <div class="detail-header-row">
-                        <h4 class="detail-date" id="detailDate">2026.06.19</h4>
-                        <button class="btn-close-detail" id="closeDetailBtn">
-                            <span class="material-symbols-rounded">close</span>
-                        </button>
-                    </div>
-                    <div class="detail-content">
-                        <div class="detail-item">
-                            <span class="detail-label">루틴</span>
-                            <span class="detail-value" id="detailRoutine">집에 돌아와서 영어 회화 10분 듣기</span>
-                        </div>
-                        <div class="detail-item">
-                            <span class="detail-label">성공도</span>
-                            <span class="detail-value-emoji" id="detailEmojiRow">
-                                <span id="detailEmoji">🌓</span> <span id="detailEmojiLabel">절반의 성공</span>
-                            </span>
-                        </div>
-                        <div class="detail-item" id="detailReflectionWrapper">
-                            <span class="detail-label">소감</span>
-                            <p class="detail-value-desc" id="detailReflection">조금 피곤했지만 최소한 듣기는 마쳐서 다행이다. 내일도 계속!</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </main>
-
-        <!-- Footer -->
-        <footer class="app-footer">
-            <p class="copyright">© 2026 Micro Habit Tracker. 2026131401 일어일문학과 김유진</p>
-        </footer>
+<div class="app-container">
+    <div class="app-header">
+        <div class="date-text" id="today-date"></div>
+        <h1 class="app-title">🎯 딱 하나만</h1>
     </div>
 
-    <!-- Developer/Debugger Date Simulator Panel -->
-    <div class="developer-panel" id="devPanel">
-        <button class="dev-toggle-btn" id="devToggleBtn" title="디버거 패널 열기">
-            <span class="material-symbols-rounded">developer_mode</span>
-            <span>시뮬레이터</span>
-        </button>
-        <div class="dev-content hidden" id="devContent">
-            <h4>📅 개발자 날짜 시뮬레이터</h4>
-            <p class="dev-description">과거 데이터를 임의로 등록하여 캘린더 채우기, 스트릭 계산 등을 테스트해 보세요.</p>
-            
-            <div class="dev-row">
-                <label for="devDateSelect">기준 날짜 변경:</label>
-                <input type="date" id="devDateSelect">
-            </div>
-            
-            <div class="dev-row flex-gap">
-                <button class="btn btn-sm btn-secondary" id="devResetTodayBtn">오늘로 초기화</button>
-            </div>
-            
-            <div class="dev-divider"></div>
-            
-            <div class="dev-row">
-                <button class="btn btn-sm btn-accent" id="devGenerateMockBtn">
-                    🔥 7일간의 샘플 데이터 생성
-                </button>
-            </div>
-            
-            <div class="dev-row">
-                <button class="btn btn-sm btn-danger" id="devClearAllBtn">
-                    ⚠️ 모든 기록 지우기
-                </button>
+    <div class="app-content">
+        <div class="input-section" id="input-box">
+            <label>오늘의 단 하나의 루틴</label>
+            <input type="text" id="routine-input" placeholder="예: 집에 와서 책 한 장 읽기">
+            <button onclick="registerRoutine()">등록하기</button>
+        </div>
+
+        <div class="routine-display" id="display-box" style="display: none;">
+            <label>오늘의 목표</label>
+            <div class="routine-text" id="current-routine"></div>
+        </div>
+
+        <div class="emoji-section" id="emoji-box" style="display: none;">
+            <label>오늘의 실천 결과는?</label>
+            <div class="emoji-group">
+                <button class="emoji-btn" onclick="saveResult('🔥')">🔥</button>
+                <button class="emoji-btn" onclick="saveResult('✅')">✅</button>
+                <button class="emoji-btn" onclick="saveResult('💤')">💤</button>
+                <button class="emoji-btn" onclick="saveResult('❌')">❌</button>
             </div>
         </div>
     </div>
 
-    <!-- Custom Toast Notification -->
-    <div class="toast-container" id="toastContainer"></div>
+    <div class="history-section">
+        <label>지난 기록</label>
+        <div id="history-list"></div>
+    </div>
+</div>
 
-    <script src="app.js"></script>
+<script>
+    const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'short' };
+    document.getElementById('today-date').innerText = new Date().toLocaleDateString('ko-KR', options);
+
+    function registerRoutine() {
+        const input = document.getElementById('routine-input').value.trim();
+        if(!input) {
+            alert('루틴을 입력해주세요!');
+            return;
+        }
+        if (input.includes('.') || input.length > 25) {
+            alert('⚠️ 주의: 한 문장 형태로 간결하게 작성해주세요!');
+        }
+        document.getElementById('current-routine').innerText = input;
+        document.getElementById('input-box').style.display = 'none';
+        document.getElementById('display-box').style.display = 'block';
+        document.getElementById('emoji-box').style.display = 'block';
+    }
+
+    function saveResult(emoji) {
+        const routine = document.getElementById('current-routine').innerText;
+        const dateStr = new Date().toLocaleDateString('ko-KR', {month: 'short', day: 'numeric'});
+        const historyList = document.getElementById('history-list');
+        const item = document.createElement('div');
+        item.className = 'history-item';
+        item.innerHTML = `<span>${dateStr} - ${routine}</span> <span>${emoji}</span>`;
+        historyList.insertBefore(item, historyList.firstChild);
+
+        document.getElementById('routine-input').value = '';
+        document.getElementById('input-box').style.display = 'block';
+        document.getElementById('display-box').style.display = 'none';
+        document.getElementById('emoji-box').style.display = 'none';
+        alert('오늘의 기록이 저장되었습니다!');
+    }
+</script>
+
 </body>
 </html>
